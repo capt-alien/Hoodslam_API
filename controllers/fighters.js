@@ -2,14 +2,26 @@ const Fighter = require('../models/fighters');
 
 module.exports = (app) => {
 
+//index
+// INDEX
+app.get('/', (req, res) => {
+  Fighter.find()
+    .then(fighters => {
+        console.log(fighters)
+        // {fighters: fighters}
+      res.send( {fighters: fighters});
+    })
+    .catch(err => {
+      console.log(err);
+    })
+})
+
+
   // CREATE
   app.post('/fighters/new', (req, res) => {
-    // INSTANTIATE INSTANCE OF POST MODEL
-    console.log("test1************");
+    // INSTANTIATE INSTANCE OF fighter MODEL
     const fighter = new Fighter(req.body);
-        console.log("test2************");
-
-    // SAVE INSTANCE OF POST MODEL TO DB
+    // SAVE INSTANCE OF fighter MODEL TO DB
     fighter.save((err, fighter) => {
     console.log(fighter)
       // REDIRECT TO THE ROOT
