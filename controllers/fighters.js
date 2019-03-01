@@ -15,7 +15,17 @@ app.get('/', (req, res) => {
       console.log(err);
     })
 })
-
+// GET ONE
+app.get("/fighters/:id", function(req, res) {
+  // LOOK UP THE POST
+  Fighter.findById(req.params.id)
+    .then(fighter => {
+      res.send({ fighter });
+    })
+    .catch(err => {
+      console.log(err.message);
+    });
+});
 
   // CREATE
   app.post('/fighters/new', (req, res) => {
