@@ -51,7 +51,15 @@ app.get("/fighters/:id", function(req, res) {
       })
   });
 
-
+  // DELETE
+  app.delete('/fighters/:id', function (req, res) {
+    console.log("DELETE fighter")
+    Fighter.findByIdAndRemove(req.params.id).then((fighter) => {
+      res.send("Fighter Deleted");
+    }).catch((err) => {
+      console.log(err.message);
+    })
+  })
 
 
 
