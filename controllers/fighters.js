@@ -39,4 +39,26 @@ app.get("/fighters/:id", function(req, res) {
     })
   });
 
+  // UPDATE
+  app.put('/fighters/:id', (req, res) => {
+    Fighter.findByIdAndUpdate(req.params.id, req.body)
+      .then(fighter => {
+          // Sending old object in the return Why?
+        res.send({fighter})
+      })
+      .catch(err => {
+        console.log(err.message)
+      })
+  });
+
+
+
+
+
+
+
+
+
+
+
 };

@@ -1,4 +1,5 @@
 const express = require('express')
+const methodOverride = require('method-override')
 const app = express()
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
@@ -8,7 +9,8 @@ const expressValidator = require('express-validator');
 // Use Body Parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
+// override with POST having ?_method=DELETE or ?_method=PUT
+app.use(methodOverride('_method'))
 
 // Add after body parser initialization!
 app.use(expressValidator());
