@@ -1,14 +1,20 @@
 const express = require('express')
 const methodOverride = require('method-override')
+var cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
+
 const app = express()
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 
+// require dotenv
+require('dotenv').config();
 
 
 // Use Body Parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser()); // Add this after you initialize express.
 // override with POST having ?_method=DELETE or ?_method=PUT
 app.use(methodOverride('_method'))
 
