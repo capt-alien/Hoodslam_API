@@ -21,6 +21,6 @@ Steps:
 4) create post resource
 5) create post model
 
-
+Please note that user and fighter are separate resources for security reasons. Security is a two part protocol with username being the more public. Here should have separate usernames from the fighter names for an extra layer of security. Users will be assoicated to the fighters by fighter_id.
 
 All testing will be done in postman😅

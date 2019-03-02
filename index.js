@@ -12,19 +12,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // override with POST having ?_method=DELETE or ?_method=PUT
 app.use(methodOverride('_method'))
 
+
 // Add after body parser initialization!
 app.use(expressValidator());
 
-
-// routes
-require('./controllers/fighters.js')(app);
-
 // Set db
 require('./data/hoodslam-db');
+// routes
+require('./controllers/fighters.js')(app);
+require('./controllers/auth.js')(app);
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+
+
+
+// app.get('/', (req, res) => {
+//     // Need to figure out the reroute thing
+//   res.send('Succsss!')
+// })
 
 
 // App init
