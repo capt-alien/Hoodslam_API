@@ -1,11 +1,15 @@
 const Fighter = require('../models/fighters');
+const User = require('../models/user');
+
 
 module.exports = (app) => {
 
 //index
 // INDEX
 app.get('/', (req, res) => {
-  Fighter.find()
+    var currentUser = req.user;
+
+  Fighter.find()//.populate('u_name') dont want to send username with request
     .then(fighters => {
         // console.log(fighters)
         // {fighters: fighters}
@@ -15,6 +19,7 @@ app.get('/', (req, res) => {
       console.log(err);
     })
 })
+
 // GET ONE
 app.get("/fighters/:id", function(req, res) {
   // LOOK UP THE POST
@@ -29,36 +34,29 @@ app.get("/fighters/:id", function(req, res) {
 
 // CREATE
 app.post("/fighters/new", (req, res) => {
-  if (req.user) {
-      console.log("****TEST1****")
-    var fighter = new Fighter(req.body);
-    console.log(fighter.name)
-    console.log("Tesssssst2")
-    fighter.save(function(err, post) {
-        res.json({ message: `Fighter ${fighter.name} has been created` })
-        console.log("Tesssssst3")
+    if (req.user) {
+        var fighter = new Fighter(req.body);
+        fighter.u_name = req.user._id;
 
-
-      return res.redirect(`/`);
-    });
-  } else {
-    return res.status(401); // UNAUTHORIZED
-  }
+        fighter
+            .save()
+            .then(fighter => {
+                return User.findById(req.user._id);
+            })
+            .then(user => {
+                console.log(user);
+                user.fighters.unshift(fighter._id);
+                user.save();
+                res.json({ message: `Fighter ${fighter.name} has been created` })
+                // REDIRECT TO THE NEW POST
+            })
+            .catch(err => {
+                console.log(err.message);
+            });
+    } else {
+        return res.status(401); // UNAUTHORIZED
+    }
 });
-
-
-  // CREATE
-  // app.post('/fighters/new', (req, res) => {
-  //   // INSTANTIATE INSTANCE OF fighter MODEL
-  //   const fighter = new Fighter(req.body);
-  //   // SAVE INSTANCE OF fighter MODEL TO DB
-  //   fighter.save((err, fighter) => {
-  //   console.log(fighter)
-  //     // REDIRECT TO THE ROOT
-  //     res.json({ message: `Fighter ${fighter.name} has been created` })
-  //     // return res.redirect(`/`);
-  //   })
-  // });
 
   // UPDATE
   app.put('/fighters/:id', (req, res) => {
