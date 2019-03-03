@@ -7,6 +7,10 @@ const app = express()
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 
+
+// END OF AUTH
+
+
 // require dotenv
 require('dotenv').config();
 
@@ -22,13 +26,29 @@ app.use(methodOverride('_method'))
 // Add after body parser initialization!
 app.use(expressValidator());
 
+
+
+// auth
+var checkAuth = (req, res, next) => {
+  console.log("Checking authentication");
+  if (typeof req.cookies.nToken === "undefined" || req.cookies.nToken === null) {
+    req.user = null;
+  } else {
+    var token = req.cookies.nToken;
+    var decodedToken = jwt.decode(token, { complete: true }) || {};
+    req.user = decodedToken.payload;
+  }
+
+  next();
+};
+app.use(checkAuth);
+
+
 // Set db
 require('./data/hoodslam-db');
 // routes
 require('./controllers/fighters.js')(app);
 require('./controllers/auth.js')(app);
-
-
 
 
 // app.get('/', (req, res) => {
