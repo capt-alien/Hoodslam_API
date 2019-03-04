@@ -4,7 +4,7 @@ I am creating an API to track fighters from the Oakland based professional wrest
 
 routes:
 Sign up:
-{{url}}/
+{{url}}/sign-up
 
 login:
 {{url}}/login
