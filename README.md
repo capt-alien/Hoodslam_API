@@ -1,26 +1,42 @@
-**Customer API project for BEW1.2 2.27.19
+**Customer API project for BEW1.2 2.27.19**
 
 I am creating an API to track fighters from the Oakland based professional wrestling federation Hood-slam!
 
-The Fighter resource will have the following fields:
-id
-name
-style/theme
-affiliation
-total matches
-total wins
-titles
+routes:
+Sign up:
+{{url}}/
 
-Afterwards the fighters will then be able to create posts and comment on other fighters posts. Fighters will need to be logged in to create posts but posts will be public (GET will not have a JWT, but POST, PUT and DELETE will require JWT).
+login:
+{{url}}/login
 
-Steps:
-1) create server "hello world"
-1.5) init node and mongoose
-2) create fighter resource
-3) create fighter model
-4) create post resource
-5) create post model
+Index:
+{{url}}/
 
-Please note that user and fighter are separate resources for security reasons. Security is a two part protocol with username being the more public. Here should have separate usernames from the fighter names for an extra layer of security. Users will be assoicated to the fighters by fighter_id.
+Individual fighter:
+{{url}}/fighters/{id}
 
-All testing will be done in postman😅
+
+CRUD fighter Resource:
+To access the API users will have to sign up by sending a post request json with username and password as keys/value pairs to the sign-up route. Once signed in, the user can create a new fighter by sending a JSON with a post request. Then the user can request all existing fighters through an index route and search for single fighters by sending a get request to the fighters/{id} routes. With the fighters/{id} route users can send a put request with JSON to update information about the fighter or send a delete request to the route to destroy data on the fighter.
+
+Please note that user and fighter are separate resources for security reasons. Security is a two-part protocol with username being the more public. Here should have separate usernames from the fighter names for an extra layer of security. Users will be associated to the fighters by fighter_id.
+
+All testing will be done in Postman😅
+
+Fighter schema:
+
+  name: { type: String, required: true },
+  nickname: { type: String, required: true },
+  affiliation: { type: String, required: true },
+  bio: { type: String, required: true },
+  u_name : { type: Schema.Types.ObjectId, ref: "User", required: true }
+
+(u_name is the name of the user that created the fighter which references the user in the user resource)
+
+User Schema:
+
+createdAt: { type: Date },
+updatedAt: { type: Date },
+username: { type: String, required: true },
+password: { type: String, select: false },
+fighters : [{ type: Schema.Types.ObjectId, ref: "fighter" }]
