@@ -6,7 +6,10 @@ const jwt = require('jsonwebtoken');
 const app = express()
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
+const port = process.env.PORT || 3000;
 
+var mongoose = require('mongoose');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/hoodslamapi', { useNewUrlParser: true });
 
 // END OF AUTH
 
@@ -58,6 +61,8 @@ require('./controllers/auth.js')(app);
 
 
 // App init
-app.listen(3000, () => {
-  console.log('App listening on port 3000!')
-})
+app.listen(port)
+
+//     3000, () => {
+//   console.log('App listening on port 3000!')
+// })
