@@ -54,15 +54,8 @@ require('./controllers/fighters.js')(app);
 require('./controllers/auth.js')(app);
 
 
-// app.get('/', (req, res) => {
-//     // Need to figure out the reroute thing
-//   res.send('Succsss!')
-// })
+
 
 
 // App init
 app.listen(port)
-
-//     3000, () => {
-//   console.log('App listening on port 3000!')
-// })
