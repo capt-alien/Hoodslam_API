@@ -34,12 +34,14 @@ module.exports = app => {
         User.findOne({ username }, "username password")
         .then(user => {
             if (!user) {
+                console.log("Reach 1")
                 // User not found
                 return res.status(401).send({ message: "Wrong Username or Password" });
             }
             // Check the password
             user.comparePassword(password, (err, isMatch) => {
                 if (!isMatch) {
+                    console.log("reach 2")
                     // Password does not match
                     return res.status(401).send({ message: "Wrong Username or password" });
                 }

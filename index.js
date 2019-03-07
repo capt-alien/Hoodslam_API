@@ -6,10 +6,9 @@ const jwt = require('jsonwebtoken');
 const app = express()
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
-const port = process.env.PORT || 3000;
 
 var mongoose = require('mongoose');
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/hoodslamapi', { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/hoodslamapi');
 
 // END OF AUTH
 
@@ -56,6 +55,7 @@ require('./controllers/auth.js')(app);
 
 
 
+const port = process.env.PORT || 3000;
 
 // App init
 app.listen(port)
